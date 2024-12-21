@@ -7,10 +7,12 @@
 # useful for handling different item types with a single interface
 import json
 from infra.postgresql_connector import PostgresConnector
+from infra.redis_connector import RedisConnector
 
 class JobsPipeline:
     def __init__(self):
         self.postgres = None
+        self.redis_connector = None
         self.conn = None
         self.cur = None
 
@@ -25,6 +27,9 @@ class JobsPipeline:
         self.conn = self.postgres.connect()
         self.cur = self.conn.cursor()
 
+        self.redis_connector = RedisConnector()  # Varsayılan 127.0.0.1:6379/db=0
+        self.redis_connector.connect()
+
         create_table_query = """
         CREATE TABLE IF NOT EXISTS raw_table (
             id SERIAL PRIMARY KEY,
@@ -38,6 +43,18 @@ class JobsPipeline:
         self.conn.commit()
 
     def process_item(self, item, spider):
+        # Not: Duplicate kontrolü için diger kolonlari incele
+        slug = item.get('slug')
+        if slug:
+            existing = self.redis_connector.get_item(slug)
+
+            if existing:
+                spider.logger.info(f"Duplicate item found: {slug}")
+                return item
+
+            else:
+                self.redis_connector.set_item(slug, "True")
+
         insert_query = """
         INSERT INTO raw_table (slug, title, description, raw_json)
         VALUES (%s, %s, %s, %s)
