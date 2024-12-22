@@ -12,6 +12,8 @@ services:
       - postgres
       - redis
       - mongo
+    env_file:
+      - .env
     volumes:
       - .:/app
     networks:

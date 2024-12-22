@@ -18,13 +18,7 @@ class JobsPipeline:
         self.cur = None
 
     def open_spider(self, spider):
-        self.postgres = PostgresConnector(
-            host='postgres',
-            db='postgres',
-            user='postgres',
-            password='postgres',
-            port=5432
-        )
+        self.postgres = PostgresConnector()
         self.conn = self.postgres.connect()
         self.cur = self.conn.cursor()
 
@@ -83,7 +77,7 @@ class MongoPipeline:
         self.mongo_connector = None
     
     def open_spider(self, spider):
-        self.mongo_connector = MongoConnector(host='mongo', db_name='my_mongo_db')
+        self.mongo_connector = MongoConnector()
         self.mongo_connector.connect()
 
     def process_item(self, item, spider):

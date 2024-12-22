@@ -1,12 +1,12 @@
 import psycopg2
+import os
 
 class PostgresConnector:
-    def __init__(self, host='postgres', db='postgres', password='postgres', user='postgres', port=5432):
-        self.host = host
-        self.db = db
-        self.user = user
-        self.password = password
-        self.port = port
+    def __init__(self):
+        self.host = os.getenv('POSTGRES_HOST', 'postgres')
+        self.db = os.getenv('POSTGRES_DB', 'postgres')
+        self.user = os.getenv('POSTGRES_USER', 'postgres')
+        self.port = int(os.getenv('POSTGRES_PORT', 5432))
         self.connection = None
 
     def connect(self):
@@ -15,7 +15,6 @@ class PostgresConnector:
                 host=self.host,
                 database=self.db,
                 user=self.user,
-                password=self.password,
                 port=self.port
             )
         return self.connection

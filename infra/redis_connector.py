@@ -2,10 +2,10 @@ import redis
 import os
 
 class RedisConnector:
-    def __init__(self, host='redis', port=6379, db=0):
-        self.host = host
-        self.port = port
-        self.db = db
+    def __init__(self):
+        self.host = os.getenv('REDIS_HOST', 'redis')
+        self.port = int(os.getenv('REDIS_PORT', 6379))
+        self.db = int(os.getenv('REDIS_DB', 0))
         self.client = None
 
     def connect(self):

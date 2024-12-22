@@ -2,14 +2,10 @@ import os
 from pymongo import MongoClient
 
 class MongoConnector:
-    def __init__(self, 
-                 host='mongo', 
-                 port=27017,
-                 db_name='canaria', 
-                 ):
-        self.host = 'mongo'
-        self.port = 27017
-        self.db_name = 'canaria'
+    def __init__(self):
+        self.host = os.getenv('MONGO_HOST', 'mongo')
+        self.port = int(os.getenv('MONGO_PORT', 27017))
+        self.db_name = os.getenv('MONGO_DB', 'canaria')
         self.client = None
         self.db = None
 
