@@ -57,7 +57,7 @@ scrapping-pipeline/
 ### 1. Clone the Repository or Obtain the Files
 
 ```bash
-git clone <REPO_URL>
+git clone https://github.com/kerem-ozt/scrapping-pipeline
 cd scrapping-pipeline
 ```
 
