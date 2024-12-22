@@ -8,6 +8,7 @@
 import json
 from infra.postgresql_connector import PostgresConnector
 from infra.redis_connector import RedisConnector
+from infra.mongo_connector import MongoConnector 
 
 class JobsPipeline:
     def __init__(self):
@@ -19,7 +20,7 @@ class JobsPipeline:
     def open_spider(self, spider):
         self.postgres = PostgresConnector(
             host='192.168.1.44',
-            db='canaria',
+            db='postgres',
             user='postgres',
             password='postgres',
             port=5432
@@ -76,3 +77,20 @@ class JobsPipeline:
             self.cur.close()
         if self.conn:
             self.conn.close()
+
+class MongoPipeline:
+    def __init__(self):
+        self.mongo_connector = None
+    
+    def open_spider(self, spider):
+        self.mongo_connector = MongoConnector(host='mongo', db_name='my_mongo_db')
+        self.mongo_connector.connect()
+
+    def process_item(self, item, spider):
+        self.mongo_connector.db["raw_collection"].insert_one(dict(item))
+        spider.logger.info(f"Inserted into Mongo raw_collection.")
+        return item
+    
+    def close_spider(self, spider):
+        if self.mongo_connector:
+            self.mongo_connector.close()

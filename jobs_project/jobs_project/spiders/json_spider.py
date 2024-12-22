@@ -6,7 +6,7 @@ class JobSpider(scrapy.Spider):
     name = 'job_spider'
 
     def start_requests(self):
-        file_list = ['/home/kerem/deCanaria/scrapping-pipeline/data/s01.json', '/home/kerem/deCanaria/scrapping-pipeline/data/s02.json']
+        file_list = ['/app/data/s01.json', '/app/data/s02.json']
         for file_path in file_list:
             # Not: file:/// kullanilabilir
             with open(file_path, 'r', encoding='utf-8') as f:

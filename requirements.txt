@@ -1,5 +1,4 @@
-Scrapy
-# psycopg2
-psycopg2-binary
-redis
-pymongo
+Scrapy==2.12.0
+psycopg2-binary==2.9.10
+redis==5.2.1
+pymongo==4.10.1

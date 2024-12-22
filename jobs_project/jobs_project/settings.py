@@ -67,6 +67,7 @@ ROBOTSTXT_OBEY = True
 # }
 ITEM_PIPELINES = {
     'jobs_project.pipelines.JobsPipeline': 300,
+    'jobs_project.pipelines.MongoPipeline': 400,
 }
 
 
