@@ -1,18 +1,13 @@
 import csv
-import json
-import os
 from infra.postgresql_connector import PostgresConnector
+from infra.mongo_connector import MongoConnector
 
 def export_raw_table_to_csv(csv_filename="jobs_export.csv"):
-    """
-    PostgreSQL'deki 'raw_table' tablosundan id, slug ve raw_json alanlarını
-    çekip bir CSV dosyasına yazar.
-    """
     pg = PostgresConnector(
-        host='192.168.1.44',
+        host='postgres',
         db='postgres',
         user='postgres',
-        password='postgres',
+        # password='postgres',
         port=5432
     )
     conn = pg.connect()
@@ -38,9 +33,6 @@ def export_raw_table_to_csv(csv_filename="jobs_export.csv"):
     conn.close()
 
     print(f"Export completed! File saved as: {csv_filename}")
-
-import csv
-from infra.mongo_connector import MongoConnector
 
 def export_mongo_to_csv(csv_filename='mongo_export.csv'):
     mongo = MongoConnector(host='mongodb', db_name='mydatabase')

@@ -19,7 +19,7 @@ class JobsPipeline:
 
     def open_spider(self, spider):
         self.postgres = PostgresConnector(
-            host='192.168.1.44',
+            host='postgres',
             db='postgres',
             user='postgres',
             password='postgres',
